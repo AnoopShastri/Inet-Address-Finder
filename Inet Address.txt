@@ -1,0 +1,62 @@
+    import java.awt.*;
+    import java.awt.event.*;
+    import java.net.*;
+    import javax.swing.*;
+public class IPAddressFinder extends JFrame {
+    private JLabel label;
+    private JTextField textField;
+    private JButton button;
+    public void UserInterface(){
+        setTitle("DataFlair's IP Address Finder");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getContentPane().setBackground(Color.YELLOW);
+        setSize(300, 150);
+        setLocationRelativeTo(null);
+        //Create GUI components
+        label = new JLabel("Enter URL:");
+        textField = new JTextField(20);
+        textField.setForeground(Color.BLUE);
+        button = new JButton("Locate IP");
+        button.setForeground(Color.WHITE);
+        button.setBackground(Color.darkGray);
+        button.setBorderPainted(false);
+        button.setOpaque(true);
+        // Set font and alignment for label and button
+        Font labelFont = new Font("Arial", Font.BOLD, 12);
+        label.setFont(labelFont);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        Font buttonFont = new Font("Arial", Font.PLAIN, 12);
+        button.setFont(buttonFont);
+        setLayout(new FlowLayout());
+        add(label);
+        add(textField);
+        add(button);
+    }
+    public IPAddressFinder() {
+        UserInterface();
+        // Add ActionListener to the button
+        button.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                String url = textField.getText();
+                try {
+                    // Retrieve the IP address for the given URL
+                    InetAddress add = InetAddress.getByName(url);
+                    String ip = add.getHostAddress();
+                    // Display the retrieved IP address in a message dialog
+                    JOptionPane.showMessageDialog(null, "IP Address: " + ip);
+                } catch (Exception e) {
+                    // Display an error message if an exception occurs
+                    JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+                }
+            }
+        });
+    }
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                IPAddressFinder gui = new IPAddressFinder();
+                gui.setVisible(true);
+            }
+        });
+    }
+}
